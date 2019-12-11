@@ -1,27 +1,6 @@
 import React from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 
-import { 
-  Container, 
-  Header, 
-  Left,
-  Body,
-  Right,
-  Label, 
-  Content, 
-  Form, 
-  Item, 
-  Input, 
-  Picker, 
-  Icon,
-  Button,
-  Text, 
-  Title,
-  List,
-  ListItem,
-  Card,
-  CardItem,
-} from 'native-base';
 
 import MainTabNavigator from './MainTabNavigator';
 import { AuthLoadingScreen } from '../screens/AuthLoading'
@@ -36,6 +15,6 @@ export default createAppContainer(
     Auth: AuthStack,
     Main: MainTabNavigator,
   }, { 
-    initialRouteName: 'AuthLoading', 
+    initialRouteName: 'Auth',
     
   }));

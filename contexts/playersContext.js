@@ -1,7 +1,15 @@
-import React, { useContext, createContext, useState, useCallback } from 'react'
+import React, { useContext, createContext, useState, useCallback, useMemo } from 'react'
 import { useStorage } from '../hooks/storage'
 
-export const PlayerContext = createContext({toggleChecked: ()=>{}, players: [], addPlayer: ()=>{}, reemovePlayers: ()=>{},removePlayer: ()=>{}})
+export const PlayerContext = createContext({
+  toggleChecked: ()=>{},
+  players: [],
+  addPlayer: ()=>{},
+  removePlayers: ()=>{},
+  hasCheckedPlayers: ()=>{},
+  removePlayer: ()=>{},
+  hasPlayer: name=>{},
+})
 
 export const PlayerContextProvider = ({children}) =>{
   const [players, setPlayers] = useStorage('players',[{name: 'jimmyJoe', checked: false}])
@@ -29,12 +37,28 @@ export const PlayerContextProvider = ({children}) =>{
     )
   }, [players])
 
+  const hasPlayer = useCallback(name => players.filter(player => player.name === name).length > 0, [players])
+
+  const hasCheckedPlayers = useCallback(()=>{
+    let rtn = false
+    players.forEach(player=> {
+      if(player.checked){
+        rtn = true
+      }
+    })
+    return rtn
+  }, [players])
+
+
+
   const value = {
     players,
     addPlayer,
     removePlayer,
     toggleChecked,
     removePlayers,
+    hasPlayer,
+    hasCheckedPlayers,
   }
 
   return (

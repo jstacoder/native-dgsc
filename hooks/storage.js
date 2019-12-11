@@ -2,8 +2,21 @@ import { useState, useEffect } from "react";
 import { AsyncStorage } from "react-native";
 
 
-export const useStorage = (key, initialValue) =>{
+export const useStorage = (key, initialValue, transformer = val => val) =>{
   const [storedValue, setStoredValue] = useState(initialValue);
+
+  let isMounted = true
+
+  useEffect(()=>{
+    if(isMounted){
+      setStoredValue(transformer(storedValue))
+    }
+    return ()=>{
+       isMounted = false
+    }
+  }, [])
+
+
   useEffect(() => {
     AsyncStorage.getItem(key)
       .then(value => {

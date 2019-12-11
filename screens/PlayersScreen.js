@@ -19,6 +19,7 @@ import {
   Text
 } from 'native-base'
 import { ScrollView, StyleSheet } from 'react-native'
+import { PlayerList } from '../components/PlayerList'
 
 export const PlayerListItem = ({player, clickPlayer}) =>{
 
@@ -91,51 +92,33 @@ export const AddPlayerScreen = ({navigation, ...props}) =>{
 
 
 export const ListPlayersScreen = props => {
-  const { players, removePlayer, toggleChecked, removePlayers } = usePlayerContext()
+  const { players, removePlayer, hasCheckedPlayers, toggleChecked, removePlayers } = usePlayerContext()
   const navigation = useNavigation()
   const goToAddPlayer = () => navigation.navigate('addPlayer')
   useFocus(()=>({ title: 'Players', icon: { onClick: goToAddPlayer, color: 'black', name:  'addusergroup', type: 'AntDesign'}}))
 
 
-  const hasCheckedPlayers = useMemo(()=>{
-    let rtn = false
-    players.forEach(player=> {
-      if(player.checked){
-        rtn = true
-      }
-    })
-    return rtn
-  }, [players])
-
-
   const clickPlayer = player => toggleChecked(player)
-  /**
-   * Go ahead and delete ExpoConfigView and replace it with your content;
-   * we just wanted to give you a quick view of your config.
-   */
+
   return (
 
    <Content>
 
 
      <ScrollView style={styles.container}>
-      {/**
-       * Go ahead and delete ExpoLinksView and replace it with your content;
-       * we just wanted to provide you with some helpful links.
-       */}
+         <PlayerList displayAddMessage/>
        <Card transparent>
-         {players.length ? players.sort((playera, playerb) => playera.name > playerb.name ).map(player=> <PlayerListItem key={player.name} clickPlayer={()=>clickPlayer(player)} player={player}/>) : <CardItem><Text>Click above to add a player</Text></CardItem>}
-       {hasCheckedPlayers &&
-            <CardItem>
-              <Body>
-                <Button onPress={removePlayers} dark bordered full>
-                  <Text>
-                    Remove Selected
-                  </Text>
-                  </Button>
-              </Body>
-           </CardItem>
-       }
+         {hasCheckedPlayers &&
+              <CardItem>
+                <Body>
+                  <Button onPress={removePlayers} dark bordered full>
+                    <Text>
+                      Remove Selected
+                    </Text>
+                    </Button>
+                </Body>
+             </CardItem>
+         }
        </Card>
     </ScrollView>
    </Content>

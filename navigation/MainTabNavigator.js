@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform } from 'react-native';
+import { Platform, Text } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
@@ -7,7 +7,12 @@ import HomeScreen from '../screens/HomeScreen';
 import { CoursesStack as Courses } from './CoursesStack';
 import { PlayersStack as BasePlayersStack } from './PlayersStack'
 import { HeaderComponent } from '../components/HeaderComponent'
+import { ChoosePlayersScreen } from '../screens/ChoosePlayersScreen'
+import { ChooseCourseScreen } from '../screens/ChooseCourseScreen'
 
+const OptionsScreen = props => <Text>options</Text>
+
+const GameHistoryScreen = props => <Text>history</Text>
 
 
 const config = Platform.select({
@@ -18,11 +23,20 @@ const config = Platform.select({
       header: props => <HeaderComponent {...props}/>,       
     }
   },
-});
+})
+
+const PlayStack = createStackNavigator({
+  choosePlayers: ChoosePlayersScreen,
+  chooseCourse: ChooseCourseScreen,
+}, {headerMode: 'none'})
+
 
 const HomeStack = createStackNavigator(
   {
-    Home: HomeScreen,
+    home: HomeScreen,
+    options: OptionsScreen,
+    gameHistory: GameHistoryScreen,
+    play: PlayStack,
   },
   config
 );

@@ -29,33 +29,13 @@ import {
   Title,
 } from 'native-base'
 import { ExpoLinksView } from '@expo/samples'
+import { CourseList } from '../components/CourseList'
 import { useHeaderContext } from '../contexts/headerContext'
 
 import { useFocus } from '../hooks/useFocus'
 import { useStorage } from '../hooks/storage'
 import { useCourseContext } from '../contexts/coursesContext'
 
-
-export const CourseListItem = ({ course, clickCourse }) => {
-  const click = () => clickCourse()
-
-  return (
-    <ListItem button icon iconRight onPress={click}>
-      <Body><Text>{course.name} (holes: {course.holes})</Text></Body>
-      <Right>
-        <Icon
-          button
-          name={`checkbox-${course.checked ? 'marked' : 'blank'}-outline`}
-          style={{
-            color: course.checked ? 'green' : 'black'
-          }}
-          type={'MaterialCommunityIcons'}
-          size={25}
-        />
-      </Right>
-    </ListItem>
-  )
-}
 
 
 export const AddCourseScreen = ({navigation, ...props}) => {
@@ -165,9 +145,7 @@ export const ListCoursesScreen = () => {
          * we just wanted to provide you with some helpful links.
          */}
           <Card transparent>
-        {courses.length ? courses.sort((courseA, courseB)=> courseA.name > courseB.name).map(course => <CourseListItem clickCourse={()=>toggleCourseChecked(course)}
-                                               key={course.name}
-                                               course={course}/>) : <CardItem><Text>click above to add a course</Text></CardItem>}
+            <CourseList displayAddMessage/>
             {hasCheckedCourses &&
             <CardItem>
               <Body>

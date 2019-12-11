@@ -25,9 +25,13 @@ import { useUserContext } from '../contexts/userContext'
 import { useFocus } from '../hooks/useFocus'
 
 
-export const HomeScreen = props =>{      
+export const HomeScreen = ({navigation}) =>{
   useFocus(()=>({children: ''}))
   const { username } = useUserContext()
+
+  const routeTo = screen => {
+    navigation.navigate(screen, { username })
+  }
   
   return (
     <Container>     
@@ -40,7 +44,7 @@ export const HomeScreen = props =>{
           <Card transparent>                            
             <CardItem>
               <Body>
-                <Button dark bordered full>
+                <Button dark bordered full onPress={()=>routeTo('choosePlayers')}>
                   <Text>
                     New Game
                   </Text>             
@@ -49,7 +53,7 @@ export const HomeScreen = props =>{
            </CardItem>
            <CardItem>
              <Body>
-             <Button dark bordered full>
+             <Button dark bordered full onPress={()=> routeTo('gameHistory')}>
                 <Text>
                   History 
                 </Text>
@@ -58,7 +62,7 @@ export const HomeScreen = props =>{
               </CardItem>
               <CardItem>
                 <Body>
-             <Button dark bordered full>
+             <Button dark bordered full onPress={()=> routeTo('options')}>
                 <Text>
                   Options
                 </Text>

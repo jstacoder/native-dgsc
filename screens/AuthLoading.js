@@ -4,45 +4,32 @@ import {
     AsyncStorage,
     StatusBar,
     View,
+  Text,
     StyleSheet,
+  SafeAreaView,
 } from 'react-native'
 import { useIsFocused } from 'react-navigation-hooks'
 
 export const AuthLoadingScreen = props =>{
-    const [userToken, setUserToken] = useState(null)
+    const [userToken, setUserToken] = useState(async ()=> await AsyncStorage.getItem('userToken', (err, res)=>setUserToken(res)))
     // const [isMounted, setIsMounted] = useState(true)
 
+    let isMounted = true
+
     useEffect(()=>{
-        let isMounted = true
-        const asyncAction = async ()=>{
-            const token = await AsyncStorage.getItem('userToken')
-            if(isMounted){
-                setUserToken(token)
-            }
-        }
-        if(userToken === null){
-            if(isMounted){            
-                asyncAction()
-            }
-        }
-        return ()=>{
-            isMounted = false
-        }
-    }, [])  
-    useEffect(()=>{
-        let isMounted = true
         if(isMounted){
             props.navigation.navigate(userToken ? 'App' : 'Auth')
         }
         return ()=>{
             isMounted = false
         }
-    }, [userToken])
+    }, [])
 
     return (
-        <View>
-            <ActivityIndicator/>
+        <SafeAreaView>
+            <Text>hiuta</Text>
             <StatusBar barStyle='default'/>
-        </View>
+          <ActivityIndicator/>
+        </SafeAreaView>
     )
 }
